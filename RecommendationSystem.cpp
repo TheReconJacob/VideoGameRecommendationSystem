@@ -27,16 +27,12 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
     }
 
     // Find games that match the user's preferences and gather genres that appear frequently in their history of previously played games
-    for (const pair<string, Game>& gamePair : games) {
-        const Game& game = gamePair.second;
-        bool matchesPreferences = false;
+    vector<Game> gamesByGenres = getGamesByGenres(user.preferences);
+    for (const Game& game : gamesByGenres) {
         //Calculates the sum of the amount of times each genre in a game has occurred in the user's history
         int totalGenreFrequency = 0;
 
         for (const string& genre : game.genres) {
-            if (find(user.preferences.begin(), user.preferences.end(), genre) != user.preferences.end()) {
-                matchesPreferences = true;
-            }
             if (genreFrequency.count(genre) > 0) {
                 totalGenreFrequency += genreFrequency.at(genre);
             }
@@ -51,10 +47,10 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
             }
         }
 
-        if (!alreadyPlayed && ((matchesPreferences || totalGenreFrequency > 0) && !user.history.empty())) {
+        if (!alreadyPlayed && ((totalGenreFrequency > 0) && !user.history.empty())) {
             recommendations.push_back(game);
         }
-        else if (!alreadyPlayed && matchesPreferences && user.history.empty()) {
+        else if (!alreadyPlayed && user.history.empty()) {
             recommendations.push_back(game);
         }
     }
@@ -93,6 +89,20 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
     }
 
     return recommendations;
+}
+
+vector<Game> RecommendationSystem::getGamesByGenres(vector<string> genres) {
+    vector<Game> gamesByGenres;
+    for (const pair<string, Game>& gamePair : games) {
+        const Game& game = gamePair.second;
+        for (const string& genre : game.genres) {
+            if (find(genres.begin(), genres.end(), genre) != genres.end()) {
+                gamesByGenres.push_back(game);
+                break;
+            }
+        }
+    }
+    return gamesByGenres;
 }
 
 User RecommendationSystem::getUser(string name) {

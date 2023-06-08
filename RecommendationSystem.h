@@ -10,6 +10,7 @@ public:
     void addUser(User user);
     void addGame(Game game);
     std::vector<Game> getRecommendations(User user);
+    std::vector<Game> getGamesByGenres(std::vector<std::string> genres);
     User getUser(std::string name);
     void gatherUserInfo(User& user);
 
