@@ -59,6 +59,9 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
     }
 
     // Sort the recommendations by their total genre frequency using Enhanced Bubble Sort
+    if (recommendations.empty()) {
+        return recommendations;
+    }
     bool swapped;
     for (int i = 0; i < recommendations.size() - 1; i++) {
         swapped = false;

@@ -1,4 +1,4 @@
 ﻿  RecommendationSystem.cpp
-C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\RecommendationSystem.cpp(63,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\RecommendationSystem.cpp(65,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\RecommendationSystem.cpp(66,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\RecommendationSystem.cpp(68,27): warning C4018: '<': signed/unsigned mismatch
   VideoGameRecommendationSystem.vcxproj -> C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\Debug\VideoGameRecommendationSystem.exe
