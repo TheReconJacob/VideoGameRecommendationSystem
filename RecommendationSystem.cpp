@@ -41,10 +41,19 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
             }
         }
 
-        if ((matchesPreferences || totalGenreFrequency > 0) && !user.history.empty()) {
+        // Check if the game has already been played by the user
+        bool alreadyPlayed = false;
+        for (const Game& playedGame : user.history) {
+            if (playedGame.name == game.name) {
+                alreadyPlayed = true;
+                break;
+            }
+        }
+
+        if (!alreadyPlayed && ((matchesPreferences || totalGenreFrequency > 0) && !user.history.empty())) {
             recommendations.push_back(game);
         }
-        else if (matchesPreferences && user.history.empty()) {
+        else if (!alreadyPlayed && matchesPreferences && user.history.empty()) {
             recommendations.push_back(game);
         }
     }
