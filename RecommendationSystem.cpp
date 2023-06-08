@@ -1,13 +1,16 @@
 #include "RecommendationSystem.h"
 #include <algorithm>
 
+// I made an exception to use the std namespace here due to the amount of times std is used, as it makes the code easier to read
 using namespace std;
 
 void RecommendationSystem::addUser(User user) {
+    // Add the user to the system
     users[user.name] = user;
 }
 
 void RecommendationSystem::addGame(Game game) {
+    // Add the game to the system
     games[game.name] = game;
 }
 
@@ -26,7 +29,7 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
     for (const pair<string, Game>& gamePair : games) {
         const Game& game = gamePair.second;
         bool matchesPreferences = false;
-        //Calculates the the sum of the amount of times each genre in a game has occured in the user's history
+        //Calculates the sum of the amount of times each genre in a game has occurred in the user's history
         int totalGenreFrequency = 0;
 
         for (const string& genre : game.genres) {
@@ -46,33 +49,47 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
         }
     }
 
-    // Sort the recommendations by their total genre frequency
-    sort(recommendations.begin(), recommendations.end(), [&](const Game& gameA, const Game& gameB) {
-        int gameATotalGenreFrequency = 0;
-        int gameBTotalGenreFrequency = 0;
+    // Sort the recommendations by their total genre frequency using Enhanced Bubble Sort
+    bool swapped;
+    for (int i = 0; i < recommendations.size() - 1; i++) {
+        swapped = false;
+        for (int j = 0; j < recommendations.size() - i - 1; j++) {
+            int gameATotalGenreFrequency = 0;
+            int gameBTotalGenreFrequency = 0;
 
-        for (const string& genre : gameA.genres) {
-            if (genreFrequency.count(genre) > 0) {
-                gameATotalGenreFrequency += genreFrequency.at(genre);
+            for (const string& genre : recommendations[j].genres) {
+                if (genreFrequency.count(genre) > 0) {
+                    gameATotalGenreFrequency += genreFrequency.at(genre);
+                }
+            }
+            for (const string& genre : recommendations[j + 1].genres) {
+                if (genreFrequency.count(genre) > 0) {
+                    gameBTotalGenreFrequency += genreFrequency.at(genre);
+                }
+            }
+
+            if (gameATotalGenreFrequency < gameBTotalGenreFrequency) {
+                swap(recommendations[j], recommendations[j + 1]);
+                swapped = true;
             }
         }
-        for (const string& genre : gameB.genres) {
-            if (genreFrequency.count(genre) > 0) {
-                gameBTotalGenreFrequency += genreFrequency.at(genre);
-            }
+        // If no elements were swapped in the inner loop, the list is already sorted
+        if (!swapped) {
+            break;
         }
-
-        return gameATotalGenreFrequency > gameBTotalGenreFrequency;
-    });
+    }
 
     return recommendations;
 }
 
-User RecommendationSystem::getUser(std::string name) {
+User RecommendationSystem::getUser(string name) {
+    // Check if the user exists in the system
     if (users.count(name) > 0) {
+        // If the user exists, return their information
         return users.at(name);
     }
     else {
+        // If the user does not exist, create a new user with the given name and return it
         User user;
         user.name = name;
         return user;
