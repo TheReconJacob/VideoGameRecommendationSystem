@@ -1,5 +1,6 @@
 #include "RecommendationSystem.h"
 #include <algorithm>
+#include <iostream>
 
 // I made an exception to use the std namespace here due to the amount of times std is used, as it makes the code easier to read
 using namespace std;
@@ -105,5 +106,64 @@ User RecommendationSystem::getUser(string name) {
         User user;
         user.name = name;
         return user;
+    }
+}
+
+void RecommendationSystem::gatherUserInfo(User& user) {
+    string input;
+
+    cout << "It seems you are new here. I've now generated an account for you, but I'll need some more information before I can give you recommendations." << endl;
+
+    // Ask the user for their preferred genres
+    cout << "Firstly, what genre of games do you like?:" << endl;
+    while (true) {
+        getline(cin, input);
+        if (input == "Finished") {
+            break;
+        }
+        else
+        {
+            cout << "What other genres of games do you like? Type 'Finished' if you have no other genres to add:" << endl;
+        }
+        user.preferences.push_back(input);
+    }
+
+    // Ask the user for their previously played games
+    cout << "Brilliant, now tell me a game that you have you played before?:" << endl;
+    while (true) {
+        getline(cin, input);
+        if (input == "Finished") {
+            break;
+        }
+        else
+        {
+            // Check if the game already exists in the system
+            if (games.count(input) > 0) {
+                // If the game exists, add it to the user's history
+                user.history.push_back(games.at(input));
+            }
+            else {
+                // If the game does not exist, ask the user for its genres
+                Game game;
+                game.name = input;
+                cout << "Hmm, not heard of that game before... Can you tell me what genre this game belong to?:" << endl;
+                while (true) {
+                    getline(cin, input);
+                    if (input == "Finished") {
+                        break;
+                    }
+                    else
+                    {
+                        cout << "What other genres does this game belong to? Type 'Finished' if you have no other genres to add:" << endl;
+                    }
+                    game.genres.push_back(input);
+                }
+
+                // Add the game to the system and to the user's history
+                addGame(game);
+                user.history.push_back(game);
+            }
+            cout << "What other games have you played before? Type 'Finished' if you have no other games to add:" << endl;
+        }
     }
 }

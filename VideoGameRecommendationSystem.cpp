@@ -51,11 +51,21 @@ int main() {
 
     // Implement user interface
     std::cout << "Welcome to the Video Game Recommendation System!" << std::endl;
-    std::cout << "Please enter your name: ";
+    std::cout << "Please enter your name:" << std::endl;
     std::getline(std::cin, input);
 
     User user = system.getUser(input);
     std::vector<Game> recommendations = system.getRecommendations(user);
+
+    if (recommendations.empty()) {
+        system.gatherUserInfo(user);
+
+        // Update the user's information in the system
+        system.addUser(user);
+
+        // Get new recommendations based on the updated information
+        recommendations = system.getRecommendations(user);
+    }
 
     if (!recommendations.empty()) {
         std::cout << "Here are some games we think you'll like ranked in order based on your history and preferences:" << std::endl;

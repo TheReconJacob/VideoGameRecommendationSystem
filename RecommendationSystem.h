@@ -11,6 +11,7 @@ public:
     void addGame(Game game);
     std::vector<Game> getRecommendations(User user);
     User getUser(std::string name);
+    void gatherUserInfo(User& user);
 
 private:
     std::unordered_map<std::string, User> users;
