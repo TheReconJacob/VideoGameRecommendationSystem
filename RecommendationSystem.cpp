@@ -38,7 +38,10 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
             }
         }
 
-        if (matchesPreferences && totalGenreFrequency > 0) {
+        if ((matchesPreferences || totalGenreFrequency > 0) && !user.history.empty()) {
+            recommendations.push_back(game);
+        }
+        else if (matchesPreferences && user.history.empty()) {
             recommendations.push_back(game);
         }
     }
@@ -63,4 +66,15 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
     });
 
     return recommendations;
+}
+
+User RecommendationSystem::getUser(std::string name) {
+    if (users.count(name) > 0) {
+        return users.at(name);
+    }
+    else {
+        User user;
+        user.name = name;
+        return user;
+    }
 }
