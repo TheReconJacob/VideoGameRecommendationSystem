@@ -92,6 +92,9 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
 }
 
 vector<Game> RecommendationSystem::getGamesByGenres(vector<string> genres) {
+    if (genres.empty()) {
+        return {};
+    }
     vector<Game> gamesByGenres;
     for (const pair<string, Game>& gamePair : games) {
         const Game& game = gamePair.second;
