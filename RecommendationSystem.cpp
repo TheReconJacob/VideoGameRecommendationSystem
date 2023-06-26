@@ -1,6 +1,7 @@
 #include "RecommendationSystem.h"
 #include <algorithm>
 #include <iostream>
+#include <set>
 
 // I made an exception to use the std namespace here due to the amount of times std is used, as it makes the code easier to read
 using namespace std;
@@ -27,7 +28,17 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
     }
 
     // Find games that match the user's preferences and gather genres that appear frequently in their history of previously played games
-    vector<Game> gamesByGenres = getGamesByGenres(user.preferences);
+    vector<Game> gamesByPreferences = getGamesByGenres(user.preferences);
+    vector<string> frequentGenres;
+    for (const pair<string,int>& pair : genreFrequency) {
+        frequentGenres.push_back(pair.first);
+    }
+    vector<Game> gamesByHistory = getGamesByGenres(frequentGenres);
+    vector<Game> gamesByGenres;
+    gamesByGenres.reserve(gamesByPreferences.size() + gamesByHistory.size());
+    gamesByGenres.insert(gamesByGenres.end(), gamesByPreferences.begin(), gamesByPreferences.end());
+    gamesByGenres.insert(gamesByGenres.end(), gamesByHistory.begin(), gamesByHistory.end());
+
     for (const Game& game : gamesByGenres) {
         //Calculates the sum of the amount of times each genre in a game has occurred in the user's history
         int totalGenreFrequency = 0;
