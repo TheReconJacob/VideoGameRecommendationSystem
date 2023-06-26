@@ -1,7 +1,7 @@
 #include "RecommendationSystem.h"
 #include <algorithm>
 #include <iostream>
-#include <set>
+#include <unordered_set>
 
 // I made an exception to use the std namespace here due to the amount of times std is used, as it makes the code easier to read
 using namespace std;
@@ -35,9 +35,22 @@ vector<Game> RecommendationSystem::getRecommendations(User user) {
     }
     vector<Game> gamesByHistory = getGamesByGenres(frequentGenres);
     vector<Game> gamesByGenres;
-    gamesByGenres.reserve(gamesByPreferences.size() + gamesByHistory.size());
-    gamesByGenres.insert(gamesByGenres.end(), gamesByPreferences.begin(), gamesByPreferences.end());
-    gamesByGenres.insert(gamesByGenres.end(), gamesByHistory.begin(), gamesByHistory.end());
+
+    // Checking a game is already inserted before inserting to make sure it's not recommended twice
+    // We're using an unordered set because it has a time complexity of O(1), whereas an ordered set is O(log n)
+    unordered_set<string> alreadyInsertedGames;
+    for (const Game& game : gamesByPreferences) {
+        if (alreadyInsertedGames.count(game.name) == 0) {
+            gamesByGenres.push_back(game);
+            alreadyInsertedGames.insert(game.name);
+        }
+    }
+    for (const Game& game : gamesByHistory) {
+        if (alreadyInsertedGames.count(game.name) == 0) {
+            gamesByGenres.push_back(game);
+            alreadyInsertedGames.insert(game.name);
+        }
+    }
 
     for (const Game& game : gamesByGenres) {
         //Calculates the sum of the amount of times each genre in a game has occurred in the user's history
