@@ -1,4 +1,5 @@
 ﻿  UnitTests.cpp
-C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\RecommendationSystem.cpp(63,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\RecommendationSystem.cpp(65,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\RecommendationSystem.cpp(86,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\RecommendationSystem.cpp(88,27): warning C4018: '<': signed/unsigned mismatch
+     Creating library C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\Debug\UnitTests.lib and object C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\Debug\UnitTests.exp
   UnitTests.vcxproj -> C:\Users\jvt05\Downloads\VideoGameRecommendationSystem\Debug\UnitTests.dll

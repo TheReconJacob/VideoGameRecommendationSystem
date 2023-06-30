@@ -77,5 +77,12 @@ int main() {
         std::cout << "Sorry, we couldn't find any recommendations for you." << std::endl;
     }
 
-    return 0;
+    std::cout << "Type 'Exit' to exit the application:" << std::endl;
+
+    while (true) {
+        getline(std::cin, input);
+        if (input == "Exit") {
+            return 0;
+        }
+    }
 }
